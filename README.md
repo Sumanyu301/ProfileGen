@@ -40,6 +40,8 @@ To run the ProfileGen application locally, follow these steps:
 
 5. Access the application in your web browser at `http://localhost:8000`.
 
+6. Video Demo available at https://www.youtube.com/watch?v=tZqzGd7-3WM
+
 ## Usage
 
 1. Upload a Resume: On the homepage, you can upload your resume in PDF format. ProfileGen will extract the necessary details from the resume.
@@ -67,3 +69,4 @@ ProfileGen is released under the [MIT License](LICENSE).
 - [PyPDF2](https://pythonhosted.org/PyPDF2/): A library for extracting text from PDF files.
 - [Django](https://www.djangoproject.com/): A high-level Python web framework used to build the application.
 - [Bootstrap](https://getbootstrap.com/): A popular CSS framework for creating responsive and visually appealing web pages.
+  
