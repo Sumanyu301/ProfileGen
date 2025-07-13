@@ -1,9 +1,12 @@
 import PyPDF2
 import re
-
 from django.shortcuts import render ,HttpResponse,redirect
 from datetime import datetime
 from Home.models import Form,File
+from Home.enhanced_ocr_new import ResumeOCR, ResumeParser
+import logging
+
+logger = logging.getLogger(__name__)
 # Create your views here.
 
 def index(request):
@@ -41,91 +44,80 @@ def form(request):
   return render(request,'form.html')
 
 def dashboard(request):
-
   return render(request,'dashboard.html')
-
-#
-# def saveForm(request):
-#   if request.method == "POST":
-#       n = request.POST.get('name')
-#       email = request.POST.get('email')
-#       phone = request.POST.get('phone')
-#       experience = request.POST.get('experience')
-#       education = request.POST.get('education')
-#       skills = request.POST.get('skills')
-#       varForm = saveForm(name = n, email= email, phone = phone , education = education, experience=experience,
-#                   skills=skills, date=datetime.today())
-#       varForm.save()
-#   return render(request,'form.html')
-
-
-
-
 
 def contact(request):
     return render(request,'contact.html')
 
 
 def file(request):
-  if request.method=="POST":
-    file = request.FILES['file']
-    File.objects.create(file=file)
-    # Open the pdf file containing the resume
-    #with open('file', 'rb') as resume_pdf:
-      # Create a pdf reader object
-    pdf_reader = PyPDF2.PdfReader(file)
-      # Extract text from all pages in the pdf
-    text = ""
-    for page in pdf_reader.pages:
-        # Extract the text from the page
-        text += page.extract_text()
-
-    # Parse the text to extract specific pieces of information
-    # such as the candidate's name, contact information, education, and work experience
-
-    # Extracting the name
-    name = text.split('\n')[0]
-
-    # Extracting the email
-    email = re.search("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", text).group(0)
-
-    # Extracting the phone number
-    phone = re.search(r"\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}", text)
-    if phone:
-      phone = phone.group(0)
-    else:
-      phone = "Phone number not found"
-
-    education_split = text.split("Education")
-    if len(education_split) > 1:
-      education = education_split[1].split("Experience")[0]
-    else:
-      education = "Education not found"
-
-    work_experience_split = text.split("Experience")
-    if len(work_experience_split) > 1:
-      work_experience = work_experience_split[1].split("Skills")[0]
-    else:
-      work_experience = "Work Experience not found"
-
-    skills_split = text.split("Skills")
-    if len(skills_split) > 1:
-      skills = skills_split[1]
-    else:
-      skills = "Work Experience not found"
-
-    context = {
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'work_experience': work_experience,
-      'education': education,
-      'skills': skills
-    }
-    return render(request,'file.html',context)
-
-
-
-
-  return render(request,'file.html')
+    if request.method=="POST":
+        uploaded_file = request.FILES['file']
+        File.objects.create(file=uploaded_file)
+        
+        try:
+            # Check if it's a PDF file
+            filename = uploaded_file.name
+            if not filename.lower().endswith('.pdf'):
+                context = {
+                    'error': 'Please upload a PDF file only.',
+                    'name': 'Error',
+                    'email': 'Unsupported format',
+                    'phone': 'Unsupported format',
+                    'work_experience': 'Unsupported format',
+                    'education': 'Unsupported format',
+                    'skills': 'Unsupported format'
+                }
+                return render(request, 'file.html', context)
+            
+            # Initialize the OCR and parser
+            ocr = ResumeOCR()
+            parser = ResumeParser()
+            
+            # Extract text using simple, reliable PyPDF2 approach
+            logger.info(f"Starting text extraction from PDF: {filename}")
+            text = ocr.extract_text_from_pdf(uploaded_file)
+            
+            if text == "Could not extract text from PDF":
+                context = {
+                    'error': 'Could not extract text from the PDF. Please ensure the file contains readable text.',
+                    'name': 'Error',
+                    'email': 'Could not extract',
+                    'phone': 'Could not extract',
+                    'work_experience': 'Could not extract',
+                    'education': 'Could not extract',
+                    'skills': 'Could not extract'
+                }
+                return render(request, 'file.html', context)
+            
+            # Parse the extracted text using the proven approach
+            logger.info("Parsing extracted text for resume information")
+            parsed_data = parser.parse_resume(text)
+            
+            context = {
+                'name': parsed_data['name'],
+                'email': parsed_data['email'],
+                'phone': parsed_data['phone'],
+                'experience': parsed_data['experience'],
+                'education': parsed_data['education'],
+                'skills': parsed_data['skills']
+            }
+            
+            logger.info("Successfully processed PDF resume")
+            return render(request, 'dashboard.html', context)
+            
+        except Exception as e:
+            logger.error(f"Error processing file: {e}")
+            context = {
+                'error': f'An error occurred while processing the file: {str(e)}',
+                'name': 'Error',
+                'email': 'Processing failed',
+                'phone': 'Processing failed',
+                'work_experience': 'Processing failed',
+                'education': 'Processing failed',
+                'skills': 'Processing failed'
+            }
+            return render(request, 'file.html', context)
+    
+    return render(request, 'file.html')
 

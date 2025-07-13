@@ -1,60 +1,110 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block body %}
 
-{% block body %}
-  <br>
-  <br>
-  <br>
-<div class="container m-4 w-25 p-4 mx-auto">
-        <div class="shadows-sm">
-            <form method="POST" action="/form">
-              {% csrf_token %}
+<main id="main">
+  <!-- ======= Form Section ======= -->
+  <section id="form" class="about">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center mb-5">
+            <h3>Manual Profile Entry</h3>
+            <p>Fill in your information manually to create your profile</p>
+          </div>
 
-
-              <div class="form-outline mb-4">
-                    <input type="file" id="file" class="form-control" name="file" placeholder="Upload"/>
-                    <br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+          <div class="card shadow">
+            <div class="card-body p-4">
+              <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      name="name"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      name="email"
+                      required
+                    />
+                  </div>
                 </div>
 
-                <!-- Text input -->
-                <div class="form-outline mb-4">
-                    <input type="text" id="name" class="form-control" name="name" placeholder="Enter Your Name" required/>
-                    <label class="form-label" for="name">Name</label>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="phone"
+                    name="phone"
+                    required
+                  />
                 </div>
 
-                <!-- Email input -->
-                <div class="form-outline mb-4">
-                    <input type="email" id="email" class="form-control" name="email" placeholder="Enter your email" required />
-                    <label class="form-label" for="email">Email</label>
+                <div class="mb-3">
+                  <label for="education" class="form-label">Education</label>
+                  <textarea
+                    class="form-control"
+                    id="education"
+                    name="education"
+                    rows="3"
+                    placeholder="Your educational background..."
+                  ></textarea>
                 </div>
 
-                <!-- Number input -->
-                <div class="form-outline mb-4">
-                    <input type="number" id="phone" class="form-control" name="phone" placeholder="Phone Number" required/>
-                    <label class="form-label" for="phone">Phone</label>
+                <div class="mb-3">
+                  <label for="experience" class="form-label"
+                    >Work Experience</label
+                  >
+                  <textarea
+                    class="form-control"
+                    id="experience"
+                    name="experience"
+                    rows="4"
+                    placeholder="Your work experience..."
+                  ></textarea>
                 </div>
 
-               <!-- Experience -->
-                <div class="form-outline mb-4">
-                  <textarea type="text" id="experience" class="form-control"  name="experience" placeholder="SDE 2 years" required></textarea>
-                    <label class="form-label" for="experience">Experience</label>
+                <div class="mb-3">
+                  <label for="skills" class="form-label">Skills</label>
+                  <textarea
+                    class="form-control"
+                    id="skills"
+                    name="skills"
+                    rows="3"
+                    placeholder="Your skills and competencies..."
+                  ></textarea>
                 </div>
 
-               <!-- Education -->
-                <div class="form-outline mb-4">
-                  <textarea type="text" id="education" class="form-control" name="education" placeholder="BE CSE" required></textarea>
-                    <label class="form-label" for="education">Education</label>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Create Profile
+                  </button>
                 </div>
+              </form>
+            </div>
+          </div>
 
-               <!-- Skills -->
-                <div class="form-outline mb-4">
-                  <textarea type="text" id="skills" class="form-control" name="skills" placeholder="C++,React,Django" required></textarea>
-                    <label class="form-label" for="skills">Skills</label>
-                </div>
-
-              <button type="submit" class="btn btn-primary">Generate</button>
-            </form>
-
+          <div class="text-center mt-4">
+            <p>
+              Or
+              <a href="/file" class="btn btn-outline-secondary"
+                >Upload Resume</a
+              >
+            </p>
+          </div>
         </div>
-</div>
+      </div>
+    </div>
+  </section>
+</main>
+
 {% endblock %}

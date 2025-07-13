@@ -1,67 +1,133 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block body %}
 
-{% block body %}
-  <br xmlns="http://www.w3.org/1999/html">
-  <br>
-  <br>
-<div class="container m-4 w-25 p-4 mx-auto">
-        <div class="shadows-sm">
+<main id="main">
+  <!-- ======= File Upload Section ======= -->
+  <section id="file-upload" class="d-flex align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="text-center mb-5">
+            <h1>Upload Your Resume</h1>
+            <p class="lead">
+              Upload your PDF resume and let our system automatically extract
+              your profile information
+            </p>
+          </div>
 
+          {% if error %}
+          <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> {{ error }}
+          </div>
+          {% endif %} {% if success %}
+          <div class="alert alert-success" role="alert">
+            <i class="bi bi-check-circle"></i> Resume processed successfully!
+          </div>
+          {% endif %}
 
-              <form method="POST" action="" enctype="multipart/form-data">
+          <div class="card shadow">
+            <div class="card-body p-5">
+              <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-              <!-- Text input -->
-              <div class="form-outline mb-4">
-                   <label class="form-label" for="name">Upload Resume :</label>
-                    <input type="file" id="file" class="form-control" name="file" placeholder="Upload"/>
-                    <br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                <br>
-                <label class="form-label" for="name">*Experimental Feature</label>
+                <div class="mb-4">
+                  <label for="file" class="form-label"
+                    >Choose PDF Resume File</label
+                  >
+                  <input
+                    type="file"
+                    class="form-control form-control-lg"
+                    id="file"
+                    name="file"
+                    accept=".pdf"
+                    required
+                  />
+                  <div class="form-text">
+                    Please upload a PDF file containing your resume.
+                  </div>
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Upload and Process Resume
+                  </button>
                 </div>
               </form>
+            </div>
+          </div>
 
-              <form method="POST" action="/form">
-                {% csrf_token %}
-                <!-- Text input -->
-                <div class="form-outline mb-4">
-                    <textarea type="text" id="name" class="form-control" name="name" placeholder="Enter Your Name" required>{{ name }}</textarea>
-                  <label class="form-label" for="name"><strong>Name</strong></label>
+          {% if name and name != 'Error' %}
+          <div class="card shadow mt-4">
+            <div class="card-header">
+              <h3>Extracted Information</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <strong>Name:</strong> {{ name }}
                 </div>
-
-                <!-- Email input -->
-                <div class="form-outline mb-4">
-                  <textarea type="email" id="email" class="form-control" name="email" placeholder="Enter your email" required >{{ email }}</textarea>
-                    <label class="form-label" for="email"><strong>Email</strong></label>
+                <div class="col-md-6 mb-3">
+                  <strong>Email:</strong> {{ email }}
                 </div>
-
-                <!-- Number input -->
-                <div class="form-outline mb-4">
-                    <input type="number" id="phone" class="form-control" name="phone" placeholder="Phone Number" required/>
-                    <label class="form-label" for="phone"><strong>Phone</strong></label>
+                <div class="col-md-6 mb-3">
+                  <strong>Phone:</strong> {{ phone }}
                 </div>
+              </div>
+              <div class="mb-3">
+                <strong>Education:</strong>
+                <p>{{ education }}</p>
+              </div>
+              <div class="mb-3">
+                <strong>Work Experience:</strong>
+                <p>{{ work_experience }}</p>
+              </div>
+              <div class="mb-3">
+                <strong>Skills:</strong>
+                <p>{{ skills }}</p>
+              </div>
+            </div>
+          </div>
+          {% endif %}
 
-               <!-- Experience -->
-                <div class="form-outline mb-4">
-                  <textarea type="text" id="experience" class="form-control"  name="experience" placeholder="SDE 2 years" required>{{ work_experience }}</textarea>
-                    <label class="form-label" for="experience"><strong>Experience</strong></label>
-                </div>
-
-               <!-- Education -->
-                <div class="form-outline mb-4">
-                  <textarea type="text" id="education" class="form-control" name="education" placeholder="BE CSE" required>{{ education }}</textarea>
-                    <label class="form-label" for="education"><strong>Education</strong></label>
-                </div>
-
-               <!-- Skills -->
-                <div class="form-outline mb-4">
-                  <textarea type="text" id="skills" class="form-control" name="skills" placeholder="C++,React,Django" required>{{ skills }}</textarea>
-                    <label class="form-label" for="skills"><strong>Skills</strong></label>
-                </div>
-
-              <button type="submit" class="btn btn-primary">Generate</button>
-            </form>
-
+          <div class="text-center mt-4">
+            <p>
+              Or
+              <a href="/form" class="btn btn-outline-secondary"
+                >Fill Manual Form</a
+              >
+            </p>
+          </div>
         </div>
-</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<style>
+  #file-upload {
+    min-height: 100vh;
+    padding-top: 100px;
+  }
+
+  .card {
+    border: none;
+    border-radius: 10px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 5px;
+    padding: 12px 30px;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(45deg, #0056b3, #004085);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+  }
+
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+</style>
+
 {% endblock %}

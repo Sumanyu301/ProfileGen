@@ -1,135 +1,277 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block body %}
+<br /><br />
+<section style="background-color: #eee">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="#">User</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+              User Profile
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
 
-{% block body %}
-<br><br>
-<section style="background-color: #eee;">
-            <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img
+              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+              alt="avatar"
+              class="rounded-circle img-fluid"
+              style="width: 150px"
+            />
+            <h5 class="my-3">{{name}}</h5>
+            <p class="text-muted mb-1">Full Stack Developer</p>
+            {#
+            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+            #}
+            <div class="d-flex justify-content-center mb-2">
+              <a href="/form" class="btn btn-primary">Edit Profile</a>
+              <a href="/file" class="btn btn-outline-primary ms-1"
+                >Upload New Resume</a
+              >
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <div class="card-header">
+              <h6 class="mb-0">Quick Info</h6>
+            </div>
+            <ul class="list-group list-group-flush rounded-3">
+              {% if email and email != 'Email not found' %}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fas fa-envelope fa-lg text-primary"></i>
+                <div class="ms-3">
+                  <p class="mb-0 fw-bold">Email</p>
+                  <p class="mb-0 text-muted small">{{ email }}</p>
+                </div>
+              </li>
+              {% endif %} {% if phone and phone != 'Phone not found' %}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fas fa-phone fa-lg text-success"></i>
+                <div class="ms-3">
+                  <p class="mb-0 fw-bold">Phone</p>
+                  <p class="mb-0 text-muted small">{{ phone }}</p>
+                </div>
+              </li>
+              {% endif %}
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fas fa-user-tie fa-lg text-info"></i>
+                <div class="ms-3">
+                  <p class="mb-0 fw-bold">Profile Type</p>
+                  <p class="mb-0 text-muted small">Professional Resume</p>
+                </div>
+              </li>
+              <li
+                class="list-group-item d-flex justify-content-between align-items-center p-3"
+              >
+                <i class="fas fa-calendar fa-lg text-warning"></i>
+                <div class="ms-3">
+                  <p class="mb-0 fw-bold">Last Updated</p>
+                  <p class="mb-0 text-muted small">{{ "now"|date:"M d, Y" }}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
             <div class="row">
-                <div class="col">
-                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
-                    <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">User</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-                    </ol>
-                </nav>
-                </div>
+              <div class="col-sm-3">
+                <p class="mb-0">Full Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{name}}</p>
+              </div>
             </div>
-
+            <hr />
             <div class="row">
-                <div class="col-lg-4">
-                <div class="card mb-4">
-                    <div class="card-body text-center">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                        class="rounded-circle img-fluid" style="width: 150px;">
-                    <h5 class="my-3">{{name}}</h5>
-                    <p class="text-muted mb-1">Full Stack Developer</p>
-{#                    <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>#}
-                    <div class="d-flex justify-content-center mb-2">
-                        <button type="button" class="btn btn-primary">Follow</button>
-                        <button type="button" class="btn btn-outline-primary ms-1">Message</button>
-                    </div>
-                    </div>
-                </div>
-                <div class="card mb-4 mb-lg-0">
-                    <div class="card-body p-0">
-                    <ul class="list-group list-group-flush rounded-3">
-                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                        <i class="fas fa-globe fa-lg text-warning"></i>
-                        <p class="mb-0">LinkedIn : </p>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                        <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                        <p class="mb-0">Leetcode : </p>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                        <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                        <p class="mb-0">CodeChef : </p>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                        <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                        <p class="mb-0">CodeForces : </p>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                        <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                        <p class="mb-0">mdbootstrap</p>
-                        </li>
-                    </ul>
-                    </div>
-                </div>
-                </div>
-                <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-3">
-                        <p class="mb-0">Full Name</p>
-                        </div>
-                        <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{name}}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                        <p class="mb-0">Email</p>
-                        </div>
-                        <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{ email }}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                        <p class="mb-0">Phone</p>
-                        </div>
-                        <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{ phone }}</p>
-                        </div>
-                    </div>
-
-
-
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                        <p class="mb-0">Address</p>
-                        </div>
-                        <div class="col-sm-9">
-                        <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                    <div class="card mb-4 mb-md-0">
-                        <div class="card-body">
-                        <p class="mb-4"><span class="text-primary font-italic me-1">Skills</span>
-                            {{ skills }}
-                            <ul>
-
-                            </ul>
-                        </p>
-
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-md-6">
-                    <div class="card mb-4 mb-md-0">
-                        <div class="card-body">
-                        <p class="mb-4"><span class="text-primary font-italic me-1">Education</span>
-                            {{ education }}
-                            <ul>
-
-                            </ul>
-                        </p>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ email }}</p>
+              </div>
             </div>
+            <hr />
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Phone</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ phone }}</p>
+              </div>
             </div>
-        </section>
+
+            <hr />
+            {% if skills and skills != 'Skills not found' %}
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Skills Preview</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">
+                  {{ skills|truncatewords:10 }}{% if skills|wordcount > 10
+                  %}...{% endif %}
+                </p>
+              </div>
+            </div>
+            <hr />
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <h5 class="mb-3"><span class="text-primary">Skills</span></h5>
+                <div class="skills-content">
+                  <p
+                    class="mb-0"
+                    style="line-height: 1.6; white-space: pre-line"
+                  >
+                    {{ skills }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <h5 class="mb-3">
+                  <span class="text-primary">Education</span>
+                </h5>
+                <div class="education-content">
+                  <p
+                    class="mb-0"
+                    style="line-height: 1.6; white-space: pre-line"
+                  >
+                    {{ education }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <h5 class="mb-3">
+                  <span class="text-primary">Experience & Projects</span>
+                </h5>
+                <div class="experience-content">
+                  <p
+                    class="mb-0"
+                    style="line-height: 1.8; white-space: pre-line"
+                  >
+                    {{ experience }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-content p,
+  .education-content p,
+  .experience-content p {
+    color: #495057;
+    font-size: 14px;
+    text-align: justify;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .experience-content p {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
+  /* Better formatting for projects within experience */
+  .experience-content p {
+    line-height: 1.8;
+  }
+
+  /* Style for project headers */
+  .experience-content p strong {
+    color: #007bff;
+    font-weight: 600;
+  }
+
+  .card-body h5 {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+  }
+
+  .text-primary {
+    color: #007bff !important;
+    font-weight: 600;
+  }
+
+  /* Quick Info section improvements */
+  .list-group-item {
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .list-group-item:first-child {
+    border-top: none !important;
+  }
+
+  .list-group-item:last-child {
+    border-bottom: none !important;
+  }
+
+  .list-group-item i {
+    min-width: 30px;
+  }
+
+  .list-group-item .ms-3 {
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  /* Improve scrollbar appearance for long content */
+  .experience-content p::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .experience-content p::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  .experience-content p::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
+
+  .experience-content p::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+</style>
 {% endblock %}
