@@ -98,7 +98,7 @@ def file(request):
                 'name': parsed_data['name'],
                 'email': parsed_data['email'],
                 'phone': parsed_data['phone'],
-                'experience': parsed_data['experience'],
+                'work_experience': parsed_data['experience'],
                 'education': parsed_data['education'],
                 'skills': parsed_data['skills']
             }

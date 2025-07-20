@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block body %}
-<br /><br />
+{% extends 'base.html' %} {% block body %} <br /><br />
 <section style="background-color: #eee">
   <div class="container py-5">
     <div class="row">
@@ -28,9 +27,6 @@
             />
             <h5 class="my-3">{{name}}</h5>
             <p class="text-muted mb-1">Full Stack Developer</p>
-            {#
-            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-            #}
             <div class="d-flex justify-content-center mb-2">
               <a href="/form" class="btn btn-primary">Edit Profile</a>
               <a href="/file" class="btn btn-outline-primary ms-1"
@@ -181,7 +177,7 @@
                     class="mb-0"
                     style="line-height: 1.8; white-space: pre-line"
                   >
-                    {{ experience }}
+                    {{ work_experience }}
                   </p>
                 </div>
               </div>
